@@ -7,10 +7,11 @@ using namespace std;
 int canIceCreamBuy(vector <int>& priceArr, vector <int>& iceCreamArr)
 {
     int counter = 0;
-    for(int i = 0; i < priceArr.size() && iceCreamArr.size(); i++){
-        for(int j = 1; j < priceArr.size() && iceCreamArr.size(); j++){
+    for(int i = 0; i < priceArr.size(); i++){
+        for(int j = 1; j < iceCreamArr.size(); j++){
             if(priceArr[i] == iceCreamArr[j]){
                 counter++;
+                break;
             }
         }
     }
