@@ -34,18 +34,7 @@ int infix_expressions(string s)
 
     stack <int> operands;
     stack <char> operat;
-
-    int counter = 0;
-    for(int i = 0; i < s.length(); i++){
-       if(s[i] == '+' || s[i] == '-'){
-            counter++;
-        }
-    }
-    string test = s;
-    if(counter == 0){
-        return stoi(s);
-    }
-
+    string temp = "";
     for(int i = 0; i < s.length(); i++){
 
         if(s[i] == '(')
@@ -54,8 +43,29 @@ int infix_expressions(string s)
         }
         else if(s[i] != '(' && s[i] != ')' && s[i] != '+' && s[i] != '-' && s[i] != '*' && s[i] != '/' && s[i] != ' ' && s[i] != ',')
         {
-            int cal = s[i] - 48;
-            operands.push(cal);
+
+            temp = s[i];
+            if(s[i + 1] != '(' && s[i+1] != ')' && s[i+1] != '+' && s[i+1] != '-' && s[i+1] != '*' && s[i+1] != '/' && s[i+1] != ' ' && s[i+1] != ','){
+                temp += s[i + 1];
+
+                if(s.length() - 1 == i){
+                    break;
+                }else{
+                    long long number = 0;
+
+                    for(auto ch : temp)
+                    {
+                        number = (number * 10) + (ch - '0');
+                    }
+                    operands.push(number);
+                }
+
+
+            }else{
+                int cal = s[i] - 48;
+                operands.push(cal);
+            }
+
         }
         else if(s[i] == ')')
         {
@@ -104,11 +114,21 @@ int infix_expressions(string s)
         operands.push(operation_value);
     }
 
-    return operands.top();
+    long long number = 0;
+
+    for(auto ch : s)
+    {
+        number = (number * 10) + (ch - '0');
+    }
+    cout << operands.size() << endl;
+    return operands.size() > 1 ? number : operands.top() ;
 
 }
+
+
 int main()
 {
+    //2147483647
     string s = "2147483647";
 
     cout << infix_expressions(s);
