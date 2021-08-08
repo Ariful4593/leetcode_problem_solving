@@ -112,7 +112,7 @@ int infix_notation(string s)
     stack <int> operands;
     string postfix_expression = infix_to_postfix(s);
 
-
+    cout << postfix_expression << endl;
     int number = 0;
 
     if(isNumber(postfix_expression)){
@@ -155,8 +155,8 @@ int infix_notation(string s)
 int main()
 {
     //12/(7-3)+2*(1+5) working
-    // " 2-1 + 2 "  But it's not working
-    string s = " 2-1 + 2 ";
+    // "-2+1"  But it's not working
+    string s = "1-2+13";
 
     cout << infix_notation(s);
 
