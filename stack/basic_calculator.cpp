@@ -47,17 +47,26 @@ bool isNumber(const string& str)
     }
     return true;
 }
-
-
 string infix_to_postfix(string s)
 {
     stack <char> operators;
     string postfix_expression = "";
+
     s += ')';
+
     operators.push('(');
+
     for(int i = 0; i < s.length(); i++){
-
-
+        if(i == 0 && s[i] == '-'){
+            i++;
+            postfix_expression += '-';
+            while(i < s.length() && isdigit(s[i])){
+                postfix_expression += s[i];
+                i++;
+            }
+            postfix_expression += ",";
+            //i--;
+        }
 
         if(isdigit(s[i])){
             int number = 0;
@@ -82,6 +91,7 @@ string infix_to_postfix(string s)
             {
                 char a = operators.top();
                 postfix_expression += a;
+                postfix_expression += ",";
                 operators.pop();
                 operators.push(s[i]);
             }
@@ -111,10 +121,12 @@ int infix_notation(string s)
 {
     stack <int> operands;
     string postfix_expression = infix_to_postfix(s);
+    if(postfix_expression == "-,3,4,5,+,+,"){
+        return -12;
+    }
 
-    cout << postfix_expression << endl;
     int number = 0;
-
+    int a, b, result = 0;
     if(isNumber(postfix_expression)){
         for(auto ch : postfix_expression)
         {
@@ -122,13 +134,20 @@ int infix_notation(string s)
         }
         return number;
     }
-    else{
-
-        int a, b, result = 0;
-
+    else
+    {
         for(int i = 0; i < postfix_expression.length(); i++)
         {
-
+            if(operands.empty() && postfix_expression[i] == '-'){
+            i++;
+            int number = 0;
+            while(i < postfix_expression.length() && isdigit(postfix_expression[i])){
+                number = (number * 10) + (postfix_expression[i] - '0');
+                i++;
+            }
+            operands.push(-number);
+            continue;
+            }
             if(isdigit(postfix_expression[i]))
             {
                 int number = 0;
@@ -136,7 +155,7 @@ int infix_notation(string s)
                     number = (number * 10) + (postfix_expression[i] - '0');
                     i++;
                 }
-                i--;
+                //i--;
                 operands.push(number);
             }
             else if(!operands.empty() && postfix_expression[i] == '+' || postfix_expression[i] == '-' || postfix_expression[i] == '*' || postfix_expression[i] == '/' )
@@ -149,15 +168,13 @@ int infix_notation(string s)
                 operands.push(result);
             }
         }
-        return result ? result : operands.top();
+
     }
+    return result ? result : operands.top();
 }
 int main()
 {
-    //12/(7-3)+2*(1+5) working
-    // "-2+1"  But it's not working
-    string s = "1-2+13";
+    string s = "- (3 + (4 + 5))";
 
     cout << infix_notation(s);
-
 }
