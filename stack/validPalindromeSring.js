@@ -12,33 +12,32 @@ class Stack {
 
     pop() {
         if (this.count === 0) return undefined;
-        let deleteItems = this.items[this.count - 1]
-        // console.log(`${deleteItems} removed`)
+        let deleteItems = this.items[this.count - 1];
         this.count--
         return deleteItems
     }
 }
 
 const isPalindrome = (element) => {
+    const newElement = element.toString().toLowerCase().replace(/[^a-z0-9]/gi, '');
     const stack = new Stack();
-    const newElement = element.toString();
 
     for (let index = 0; index < newElement.length; index++) {
-        stack.push(newElement[index])
+        stack.push(newElement[index]);
     }
 
-    let reword = '';
+    let rword = ''
     while (stack.count > 0) {
-        reword += stack.pop()
+        rword += stack.pop();
     }
-    if (reword === newElement) {
+
+    if (rword === newElement) {
         return true
     } else {
         return false
     }
 }
-if (isPalindrome(121)) {
-    console.log('Palindrome')
-} else {
-    console.log('Not palindrome')
-}
+
+console.log(isPalindrome('A man, a plan, a canal: Panama'))
+
+const test = 'arif';
